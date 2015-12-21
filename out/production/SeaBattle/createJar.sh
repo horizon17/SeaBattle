@@ -1,0 +1,1 @@
+jar cfm SeaBattle.jar manifest ru.allfound.class
