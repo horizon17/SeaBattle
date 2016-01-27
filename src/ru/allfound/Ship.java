@@ -1,19 +1,20 @@
 package ru.allfound;
 
-/**
- * Created by Vlad Laptev on 30.10.15.
+/*
+ * Ship.java    v.1.0 30.10.2015
+ *
+ * Copyright (c) 2015 Vladislav Laptev,
+ * All rights reserved. Used by permission.
  */
-public class Ship extends BaseShip{
 
+public class Ship extends BaseShip{
     //длина корабля
     int length;
     int lifeShip;
-
     // свойство говорит, что корабль расположен вертикально
     // isVertical - true, значит вертикально
     // isVertical - false, значит горизонтально
     boolean isVertical;
-
 
     Ship(int numShip, int l, int x, int y) {
         length = l; //
@@ -24,7 +25,6 @@ public class Ship extends BaseShip{
     }
 
     Ship() {
-
     }
 
     public int getLifeShip() {

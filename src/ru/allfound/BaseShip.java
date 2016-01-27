@@ -1,8 +1,12 @@
 package ru.allfound;
 
-/**
- * Created by vvv on 30.10.15.
+/*
+ * BaseShip.java    v.1.0 30.10.2015
+ *
+ * Copyright (c) 2015 Vladislav Laptev,
+ * All rights reserved. Used by permission.
  */
+
 public class BaseShip {
     //номер корабля прописывается в каждую ячейку
     //если -1, то ячейка корабля уничтожена
@@ -10,7 +14,6 @@ public class BaseShip {
     //координаты
     int x;
     int y;
-
     // Конструктор - отвечает за создание объекта
     // У него нет возвращаемого значения, имя совпадает с именем класса
     // Внутри него указываем, какие свойства заданы
@@ -23,7 +26,6 @@ public class BaseShip {
     }
 
     BaseShip() {
-
     }
 
     public int getNumShip() {

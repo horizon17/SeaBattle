@@ -2,17 +2,19 @@ package ru.allfound;
 
 import javax.swing.*;
 
-/**
- * Created by Vlad Laptev on 21.11.15.
+/*
+ * CellMap.java    v.1.0 21.11.2015
+ *
+ * Copyright (c) 2015 Vladislav Laptev,
+ * All rights reserved. Used by permission.
  */
+
 public class CellMap {
     int x;
     int y;
     int cell;
-
     private JButton button;
     private boolean enableButton = true;
-
     public CellMap(int x, int y, int cell, JButton button) {
         this.x = x;
         this.y = y;
@@ -21,7 +23,6 @@ public class CellMap {
     }
 
     public CellMap() {
-
     }
 
     public JButton getButton() {

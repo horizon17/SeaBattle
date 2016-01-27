@@ -6,39 +6,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
-/**
- * Created by Vlad Laptev on 01.12.15.
+/*
+ * SeaMapGUI.java    v.1.1 01.12.2015
  *
- * http://darkraha.com/rus/java/swing/swing00.php
- * http://www.quizful.net/post/swing-layout-managers
- *
+ * Copyright (c) 2016 Vladislav Laptev,
+ * All rights reserved. Used by permission.
  */
+
 public class SeaMapGUI extends SeaMap {
     public final static int SIZEFRAMEY = 550;
     public static final int DELAY = 100;
     JLabel[] labelsShip;
     JLabel labelMessage;
-
     FindNextKick findNextKick;
-
     boolean shipAttacked = false; //флаг нажатия кнопки игроком
     boolean shipPCOut   = false; // корабли ПК уничтожены
 
     public SeaMapGUI(JLabel labelMessage, int numShip, boolean enableButton) {
-
         numberShip = numShip;
         countShip = numberShip;
         this.labelMessage = labelMessage;
-
         this.enableButton = enableButton;
-
         labelsShip = new JLabel[SIZEMAP];
         for (int i = 0; i < SIZEMAP; i++) {
             labelsShip[i] = new JLabel();
         }
-
         findNextKick = new FindNextKick();
-
         seaMap = new CellMap[SIZEMAP][SIZEMAP];
         arrayShip = new Ship[numberShip];
         //обнуляем массив
@@ -52,18 +45,17 @@ public class SeaMapGUI extends SeaMap {
                 button.addActionListener(actionListener);
             }
         }
-
     }
 
     private class buttonActionListener implements ActionListener {
         private CellMap cellMap;
+
         public buttonActionListener(CellMap cellMap) {
             super();
             this.cellMap = cellMap;
         }
 
         public void actionPerformed(ActionEvent e) {
-
             JButton button = (JButton) e.getSource();
             button.setEnabled(false);
 
@@ -94,10 +86,8 @@ public class SeaMapGUI extends SeaMap {
             } else {
                 labelMessage.setText("Сообщения: мимо");
             }
-
             shipAttacked = true;
         }
-
     }
 
     //показываем корабль и область вокруг него, если корабль уничтожен
@@ -110,10 +100,8 @@ public class SeaMapGUI extends SeaMap {
         boolean isVertical = ship.isVertical;
         int maxX = 0;
         int maxY = 0;
-
         if (x > 0) x--; //если не у левой границы
         if (y > 0) y--; //если не у верхней границы
-
         if(isVertical){
             if (ship.x < SIZEMAP-1) {//если не у правой границы
                 maxX = ship.x;
@@ -121,7 +109,6 @@ public class SeaMapGUI extends SeaMap {
             } else {
                 maxX = ship.x;
             }
-
             if (ship.y + length < SIZEMAP){//если не у нижней границы
                 maxY = ship.y;
                 maxY = maxY + length;
@@ -137,7 +124,6 @@ public class SeaMapGUI extends SeaMap {
                 maxX = ship.x;
                 maxX = maxX + length - 1;
             }
-
             if (ship.y < SIZEMAP-1){//если не у нижней границы
                 maxY = ship.y;
                 maxY++;
@@ -145,7 +131,6 @@ public class SeaMapGUI extends SeaMap {
                 maxY = ship.y;
             }
         }
-
         //скрываем кнопки по периметру корабля
         for (int cX = x; cX <= maxX; cX++){
             for (int cY = y; cY <= maxY; cY++){
@@ -153,7 +138,6 @@ public class SeaMapGUI extends SeaMap {
                 seaMap[cX][cY].setCel(-1);
             }
         }
-
         //закрашиваем корабль красным
         if (isVertical) {
             for (int i = 0; i < length; i++) {
@@ -164,14 +148,12 @@ public class SeaMapGUI extends SeaMap {
                 seaMap[ship.x + i][ship.y].getButton().setBackground(Color.RED);
             }
         }
-
         //обнуляем соответствующий корабль в списке
         StringBuilder sb = new StringBuilder();
         for (int j = 0; j < arrayShip[numShip].getLength(); j++) {
             sb.append("-");
         }
         labelsShip[numShip].setText(sb.toString());
-
     }
 
     public int getNumberShip() {
@@ -191,31 +173,25 @@ public class SeaMapGUI extends SeaMap {
     }
 
     public void showShips(Container pane, int offsetX, int offsetY){
-
         for (int i = 0; i < numberShip; i++) {
-
             int numShip = arrayShip[i].getNumShip();
-
             StringBuilder sb = new StringBuilder();
             for (int j = 0; j < arrayShip[i].getLength(); j++) {
                 //sb.append(numShip+1);
                 sb.append("X");
                 //sb.append(" ");
             }
-
             labelsShip[numShip].setText(sb.toString());
             pane.add(labelsShip[numShip]);
             Insets insets = pane.getInsets();
             Dimension size = labelsShip[numShip].getPreferredSize();
             labelsShip[numShip].setBounds(offsetX + insets.left, offsetY+ 5 + (40 * i) + insets.top,
                     size.width, size.height + 15);
-
         }
     }
 
     public void showMap(Container pane, int offsetX, int offsetY, boolean shipVisible) {
         pane.setLayout(null);
-
         //выводим номера по оси Х
         for (int i = 0; i < SIZEMAP; i++) {
             JLabel label = new JLabel();
@@ -226,7 +202,6 @@ public class SeaMapGUI extends SeaMap {
             label.setBounds(offsetX + 20 + (40 * i) + insets.left, offsetY-25 + insets.top,
                     size.width, size.height + 15);
         }
-
         //выводим номера по оси Y
         for (int i = 0; i < SIZEMAP; i++) {
             JLabel label = new JLabel();
@@ -237,7 +212,6 @@ public class SeaMapGUI extends SeaMap {
             label.setBounds(offsetX - 20 + insets.left, offsetY + 5 + (40 * i) + insets.top,
                     size.width, size.height + 15);
         }
-
         //выводим массив кнопок
         for (int x = 0; x < SIZEMAP; x++) {
             for (int y = 0; y < SIZEMAP; y++) {
@@ -268,10 +242,8 @@ public class SeaMapGUI extends SeaMap {
             }
         }
     }
-
     //true - удар нанесен, false - все корабли уничтожены
     public boolean toAttack(){
-
         if (enableButton){
             while (shipAttacked == false) {//ожидаем нанесения удара игроком (нажатие кнопки)
                 try {
@@ -281,24 +253,17 @@ public class SeaMapGUI extends SeaMap {
                 }
             };
             shipAttacked = false;
-
             if (shipPCOut){
                 return true;
             }
-
         } else { //ПК наносит ответный удар
-
             int x = 0;
             int y = 0;
             for (int i = 0; i < MAXITER; i++) {
-
                 findNextKick.nextKick();
                 x = findNextKick.nextX;
                 y = findNextKick.nextY;
-
                 int cell = seaMap[x][y].getCell();
-
-                //if (cell >= 0) {   //если по ячейке удар еще не наносили
                     if (cell > 0) { //если там корабль
                         int lifeShip = arrayShip[cell-1].getLifeShip();
                         lifeShip--;
@@ -307,7 +272,6 @@ public class SeaMapGUI extends SeaMap {
                             seaMap[x][y].getButton().setBackground(Color.ORANGE);
                             labelMessage.setText("Сообщения: кораблю " + cell + " нанесен урон");
                             seaMap[x][y].setCel(-1);//отмечаем ячейку
-
                             findNextKick.shipKick = true;
                             findNextKick.pastKick = false;
                             return false;
@@ -317,13 +281,11 @@ public class SeaMapGUI extends SeaMap {
                             labelMessage.setText("Сообщения: корабль " + cell + " уничтожен");
                             seaMap[x][y].setCel(-1);
                             showDestroyedShip(arrayShip[cell-1]); //показываем корабль и область вокруг него, если корабль уничтожен
-
                             countShip--;
                             if (countShip == 0){ //если все корабли уничтожены
                                 labelMessage.setText("Сообщения: все корабли уничтожены");
                                 return true;
                             }
-
                             findNextKick.resetFlags();
                             return false;
                         }
@@ -337,7 +299,6 @@ public class SeaMapGUI extends SeaMap {
                         labelMessage.setText("Сообщения: мимо");
                         return false;
                     }
-
                 if (findNextKick.shipKick) {
                     findNextKick.pastKick = true;
                 }
@@ -350,17 +311,14 @@ public class SeaMapGUI extends SeaMap {
     private class FindNextKick {
         boolean shipKick    = false; //если было попадание
         boolean pastKick    = false; //если мимо после последующего удара
-
         private final static int nullKick    = 0; //удар нанесли впервые
         private final static int leftKick    = 1; //удар нанесли влево
         private final static int rightKick   = 2;
         private final static int upKick      = 3;
         private final static int downKick    = 4;
         private int directionKick = nullKick; //направление удара
-
         private int firstX; // координаты первой точки для удара
         private int firstY;
-
         private int nextX;
         private int nextY;
 
@@ -374,73 +332,55 @@ public class SeaMapGUI extends SeaMap {
         }
 
         public void nextKick(){
-
             if (shipKick) { //если было попадание
                 if (pastKick) { //если промазали на последующем ударе
-
                     switch (directionKick) {
-
                         case leftKick: //если ударяли слева
-
                             if (firstX < (SIZEMAP - 1)) { //если в пределах поля, то пробуем справа
                                 nextX = firstX + 1;
                                 nextY = firstY;
                                 directionKick = rightKick;
                                 break;
                             };
-
                             if (firstY > 0) { //если в пределах поля, то пробуем вверх
                                 nextY = firstY - 1;
                                 nextX = firstX;
                                 directionKick = upKick;
                                 break;
                             }
-
                             if (firstY < (SIZEMAP - 1)) {
                                 nextY = firstY + 1;
                                 nextX = firstX;
                                 directionKick = downKick;
                                 break;
                             }
-
                                 break;
-
                         case rightKick: //если удараяли справа
-
                             if (firstY > 0) { //если в пределах поля, то пробуем вверх
                                 nextY = firstY - 1;
                                 nextX = firstX;
                                 directionKick = upKick;
                                 break;
                             }
-
                             if (firstY < (SIZEMAP - 1)) {
                                 nextY = firstY + 1;
                                 nextX = firstX;
                                 directionKick = downKick;
                                 break;
                             }
-
                             break;
-
                         case upKick:
-
                             if (firstY < (SIZEMAP - 1)) {
                                 nextY = firstY + 1;
                                 nextX = firstX;
                                 directionKick = downKick;
                                 break;
                             }
-
                             break;
-
                         case downKick:
-
                             break;
                     }
-
                 } else { //если попали
-
                     switch (directionKick) {
                         case nullKick: //если первое попадание
                             if (nextX > 0) {
@@ -451,7 +391,6 @@ public class SeaMapGUI extends SeaMap {
                                 directionKick = rightKick;
                             }
                             break;
-
                         case leftKick:
                             if (nextX > 0) {
                                 nextX--; //ударяем влево
@@ -460,7 +399,6 @@ public class SeaMapGUI extends SeaMap {
                                 directionKick = rightKick;
                             }
                             break;
-
                         case rightKick:
                             if (nextX < (SIZEMAP - 1)) { //если в пределах поля
                                 nextX++;
@@ -469,7 +407,6 @@ public class SeaMapGUI extends SeaMap {
                                 directionKick = leftKick;
                             }
                             break;
-
                         case upKick:
                             if (nextY > 0) {
                                 nextY--; //ударяем вверх
@@ -478,7 +415,6 @@ public class SeaMapGUI extends SeaMap {
                                 directionKick = downKick;
                             }
                             break;
-
                         case downKick:
                             if (nextY < (SIZEMAP - 1)) { //если в пределах поля
                                 nextY++;
@@ -489,7 +425,6 @@ public class SeaMapGUI extends SeaMap {
                             break;
                     }
                 }
-
             } else { //если не попадали
                 Random random = new Random();
                 nextX = random.nextInt(SIZEMAP);
@@ -497,9 +432,7 @@ public class SeaMapGUI extends SeaMap {
                 //сохраняем начальную точку удара
                 firstX = nextX;
                 firstY = nextY;
-
             }
-
         }
     }
 
@@ -507,10 +440,6 @@ public class SeaMapGUI extends SeaMap {
     public void resetSeaMap() {
         shipAttacked = false; //флаг нажатия кнопки игроком
         shipPCOut   = false; // корабли ПК уничтожены
-
         System.exit(0);
-
-
     }
-
 }
